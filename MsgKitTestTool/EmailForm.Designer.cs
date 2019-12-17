@@ -64,7 +64,7 @@
             this.EmailButton.TabIndex = 10;
             this.EmailButton.Text = "E-mail";
             this.EmailButton.UseVisualStyleBackColor = true;
-            this.EmailButton.Click += new System.EventHandler(this.button1_Click);
+            this.EmailButton.Click += new System.EventHandler(this.EMail_Click);
             // 
             // label1
             // 

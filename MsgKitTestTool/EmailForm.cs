@@ -40,7 +40,7 @@ namespace MsgKitTestTool
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void EMail_Click(object sender, EventArgs e)
         {
             using (var email = new Email(
                 new Sender(SenderTextBox.Text, string.Empty),

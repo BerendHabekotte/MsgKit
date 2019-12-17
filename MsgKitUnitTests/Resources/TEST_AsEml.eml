@@ -1,0 +1,208 @@
+Received: from DM6NAM11HT139.eop-nam11.prod.protection.outlook.com
+ (2603:10a6:4:2b::22) by DB6PR1001MB1014.EURPRD10.PROD.OUTLOOK.COM with HTTPS
+ via DB6PR0801CA0054.EURPRD08.PROD.OUTLOOK.COM; Mon, 2 Dec 2019 10:49:17 +0000
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=AJ2GVaH0kF+ZB2C+v+EocEpRHFPnMGsiMeZO6AY+b9NyJBuMqKRqsc8xNOpYyrf0pLdXXpE0VaOyPm1+BRAYUAE1hT0+UR0wJ+Uj4vihk2T5Qags86ZAxjdSPzNjDnwKeJbcmniu9hNQ4B7l3JkmT0hwtckyz9EkblSXLd2u01QyJP1b+xcUxXO1nGdrmORPLDnY/jUmXj9zC0NT7JcigT0hRR9PAEkw5qEqN94zbG36HMGJ6fSIHnTOQR17UI4X/o3rgjbOzxLGmZn3ccJahcHUoQe9VmdrD32XgIGyS6im/t+X9pkz5ZoCN+yRI3hkdKd/ifg2xCsbrftViZ/sEw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GuGaJfYkoAqNYCAwlebRAA16/k3pYvwngcY690XYml4=;
+ b=jRMgJO5zc2wdmE0TVif+xWdL20OWBJIjXi8uLPPghHdN1Qx9ErI2DCiPzeY2dfwxrM0r2EUFSHejdw44zj9Es4zbRcJpww9417ZtSxu4fxzeraSb5DipUP0Wla9akQ7vifH8sPQ2e+jCbFcZr6E7WtxKQwlZjFP0KckT/Fr6JmYalvJEqE5oJWsouUOEMCXTvX4b26QQGz81JCqrCslc0H5kQJjWXVrTrcE/HH1HZK0p6jiJh0jnsPIWrPWCd/Hk+tcGoDLhEjDUNOr3bCoStifb8wQaQM40VvOpUIIZBGIwf9xMw93lw0pwnxdY0uAfA2YbZ5v3Kn/JcuzrVEHpwQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 40.107.8.107) smtp.rcpttodomain=outlook.com smtp.mailfrom=docyard.eu;
+ dmarc=bestguesspass action=none header.from=docyard.eu; dkim=pass (signature
+ was verified) header.d=docuwork.onmicrosoft.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=docyard.eu] dkim=[1,1,header.d=docyard.eu]
+ dmarc=[1,1,header.from=docyard.eu])
+Received: from DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
+ (10.13.172.55) by DM6NAM11HT139.eop-nam11.prod.protection.outlook.com
+ (10.13.173.118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2451.23; Mon, 2 Dec
+ 2019 10:49:16 +0000
+Authentication-Results: spf=pass (sender IP is 40.107.8.107)
+ smtp.mailfrom=DocYard.eu; outlook.com; dkim=pass (signature was verified)
+ header.d=docuwork.onmicrosoft.com;outlook.com; dmarc=bestguesspass
+ action=none header.from=DocYard.eu;
+Received-SPF: Pass (protection.outlook.com: domain of DocYard.eu designates
+ 40.107.8.107 as permitted sender) receiver=protection.outlook.com;
+ client-ip=40.107.8.107; helo=EUR04-VI1-obe.outbound.protection.outlook.com;
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (40.107.8.107) by
+ DM6NAM11FT068.mail.protection.outlook.com (10.13.173.67) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2451.23 via Frontend Transport; Mon, 2 Dec 2019 10:49:15 +0000
+X-IncomingTopHeaderMarker:
+ OriginalChecksum:652F8000A25F9251ACF9E8E5D9D0955075DA87A3AD28190F33CCA27896999D38;UpperCasedChecksum:9F594515A60938F882711CFE21D572E2189CCB677F43193A73A660B1A7B68CCD;SizeAsReceived:5156;Count:43
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kz442qLycez64rp52RvWcpjhj2rz2IhdW0CmolgaGT3w8oZnzabtD34miElEPvrxazH45d+50TPVJTKLpU1563AyysYmHHrjGYFCbbs6ybWmEDvNd/UmuvaKQVxwPATbetu4eXyhNjizroc/SM2YFYOlErm2qbYMBp6XDQCbKx1cSFh/3+7ugMljS1oVGgwqexqlQ9hyns0SU4vP4tOC9RWMf9FiPAJ/DnKUXkHRmrb7h+Chu+GNDRc+sZICQjDXlpjQvoENGZ0eDLvVoFlJQsEcrxkyU7dYfUGc/aRE+oE/wOlgruNGwiie/fdRDQQWPBZo3M5MtB62iVRtRqZaRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GuGaJfYkoAqNYCAwlebRAA16/k3pYvwngcY690XYml4=;
+ b=CLit9c9DlYQZzR+lPS2TtK1tzX23j1jPuwj726FXxPqZYb5n33bbsUKCRfZHU0gUZiH4W63ToLHr+jYSSlSZQCkU3kR7FFhSu3TAQtAiaQq8v/laXFczap2vzOcegEcFhU6pQW0KGrLEwptX92vDIoZASMTy3xr7oF+HrfhnHkBhsATDddSSU65f+/OzcPzMphXkoaP3GZ2Gl65ZK9MFIr5BLc4aQF5TEtPlCygdUAKCKdWSwiEBDzVRLMBTQkHNKqc1rFmrSDidRhj1mwWahOIawvdxaobTBrWIDf2eu6R6O+Jr4KZY/BNIOBGnw10Vu2h0c2T6rNJ3QdXgRJW+uA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=docyard.eu; dmarc=pass action=none header.from=docyard.eu;
+ dkim=pass header.d=docyard.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=docuwork.onmicrosoft.com; s=selector2-docuwork-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GuGaJfYkoAqNYCAwlebRAA16/k3pYvwngcY690XYml4=;
+ b=LQk/MCz3Osvespm5ZZBVlDXSZnA9ZWOLISMjHk+HLTyogbueHPJ890aqkm+NugjYNeMoiYnFtfyF2sb9mVl6LOo4/PGFKqvG0vdyxqS6/qRgL6CF6fYYW3D/WtrglnLNQV6FWkjQ9QaUN2/emYODemn1ysU6E3CwKFltuSWQ1+U=
+Received: from AM0PR01MB5873.eurprd01.prod.exchangelabs.com (10.255.28.150) by
+ AM0PR01MB4387.eurprd01.prod.exchangelabs.com (52.135.144.17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.21; Mon, 2 Dec 2019 10:49:13 +0000
+Received: from AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+ ([fe80::d493:c464:56b1:d3c3]) by AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+ ([fe80::d493:c464:56b1:d3c3%7]) with mapi id 15.20.2495.014; Mon, 2 Dec 2019
+ 10:49:13 +0000
+From: Berend Habekotte <b.habekotte@DocYard.eu>
+To: "docyardtester@outlook.com" <docyardtester@outlook.com>
+Subject: TEST
+Thread-Topic: TEST
+Thread-Index: AdWo/dAjcLqOGtpfTWugcsBFuh8c+w==
+Date: Mon, 2 Dec 2019 10:49:13 +0000
+Message-ID:
+ <AM0PR01MB5873E6BF5A70B7C15FAA767F81430@AM0PR01MB5873.eurprd01.prod.exchangelabs.com>
+Accept-Language: nl-NL, en-US
+Content-Language: nl-NL
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=b.habekotte@DocYard.eu; 
+x-originating-ip: [217.100.79.147]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: b930acbf-3556-4efd-9217-08d7771546ad
+X-MS-TrafficTypeDiagnostic: AM0PR01MB4387:|DM6NAM11HT139:
+x-microsoft-antispam-prvs:
+ <AM0PR01MB4387DEB872C81C8E8770DF9381430@AM0PR01MB4387.eurprd01.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1728;
+x-forefront-prvs: 0239D46DB6
+X-Forefront-Antispam-Report-Untrusted:
+ SFV:NSPM;SFS:(10019020)(396003)(39830400003)(136003)(366004)(346002)(376002)(199004)(189003)(2906002)(33656002)(186003)(66556008)(26005)(81686011)(6116002)(790700001)(25786009)(14454004)(99286004)(1730700003)(81156014)(8676002)(8936002)(6436002)(316002)(74316002)(7736002)(1361003)(6916009)(7116003)(558084003)(3480700005)(71200400001)(6506007)(102836004)(256004)(221733001)(508600001)(81166006)(71190400001)(3846002)(66066001)(5660300002)(1240700005)(9686003)(86362001)(5640700003)(215093003)(52536014)(54896002)(6306002)(55016002)(2351001)(7696005)(66446008)(555874004)(19627235002)(66476007)(66946007)(2501003)(76116006)(64756008)(558944008);DIR:OUT;SFP:1102;SCL:1;SRVR:AM0PR01MB4387;H:AM0PR01MB5873.eurprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: DocYard.eu does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original:
+ xFFWT/7/tTjQXGq8UGqtYkhCGGAqZ8jOboAn0aEu1Pzd0HcQ/RpYB06/5NfCrXsAt2OGVKe/3k8PW1gGigRXXSbDnnyB+jYxqzrAfrYjkyAM6fMQoLTfVevxi0vKF1AFMU9hfM8PWNq2GBKtl0M6hz8d5fB2yv9z5M0xi1pPrYY7SQPQiivXSCOacYAh7PmIaubZP21AQ92h/t3fy5R6fhKdS+TpJ90P08Rz6/6MlA/d52Gb9z2TgRO/QEhwfHi6dbO2vrXBlyiM/aUk5gX0l+xwPfwZO4fUxouXYqJJGiqDfNq83w/Oh+fhY+7IJm1A
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+	boundary="_000_AM0PR01MB5873E6BF5A70B7C15FAA767F81430AM0PR01MB5873eurp_"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR01MB4387
+X-IncomingHeaderCount: 43
+Return-Path: b.habekotte@DocYard.eu
+X-MS-Exchange-Organization-ExpirationStartTime: 02 Dec 2019 10:49:16.0013
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id:
+ b930acbf-3556-4efd-9217-08d7771546ad
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersPromoted:
+ DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
+X-Forefront-Antispam-Report: EFV:NLI;
+X-MS-Exchange-Organization-AuthSource:
+ DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-UserLastLogonTime: 12/2/2019 10:39:46 AM
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+ 705638aa-207d-4db2-ef02-08d777154550
+X-MS-Exchange-EOPDirect: true
+X-Sender-IP: 40.107.8.107
+X-SID-PRA: B.HABEKOTTE@DOCYARD.EU
+X-SID-Result: PASS
+X-MS-Exchange-Organization-PCL: 2
+X-Microsoft-Antispam: BCL:0;
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2019 10:49:15.8352
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b930acbf-3556-4efd-9217-08d7771546ad
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+ 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6NAM11HT139
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:01.4259323
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.2495.013
+Importance: high
+X-Priority: 1
+X-Microsoft-Antispam-Mailbox-Delivery:
+	abwl:0;wl:0;pcwl:0;kl:0;iwl:0;ijl:0;dwl:0;dkl:0;rwl:0;ucf:0;jmr:0;ex:0;auth:1;dest:I;ENG:(5062000261)(5061607266)(5061608174)(4900115)(4920090)(6515079)(4950130)(4990090);
+X-Message-Info:
+	5vMbyqxGkdfU5y0OXhKgbz9diBCq9Mm1bjPN5mDUfRprRiLkVyWa2MFfwYh4LsFPO9b2ILnhKDEf5fImuOWhQo/+uB9G61EoCX4uAUiNwlggptXW0r1af5I0+gR4ZfpF8dVlw9Ui5F+HnR7TW0AvbLoLyb5vHEunFAD1B7M85ClY5yGAGGbqH5MsbJyTYWVeYVd4+F0+KjBxa+BaqJR/SA==
+X-Message-Delivery: Vj0xLjE7dXM9MDtsPTA7YT0xO0Q9MTtHRD0xO1NDTD0z
+X-Microsoft-Antispam-Message-Info:
+	0rJpG3NoS9B+czENCY8PtpVjUWRhhTnSPBjXYFazBjXIEk4VeVuGMEVmjKDJdUca5+HwWx5jJQukUC1TiHdwlpuYafR4V2XLqFQ59080F2hxrjylC9aUUCjLffrV3axBcgDryvndqufX22F+r0VXfjyD3T3jYzYLWEfQbMfhV349jbin3iJG8T1azUBdYdi/rzNzUeYgX7eBBhL0GsxNyIeLjblXAVafZ43sv1T3AQ+M/0CmdSyPXbHYra2GNP7CXNm1/Yjf3f7Jqgp4WpzWFNTiO7HOZ+ZLh61VpRZvkQTssVX+SRN3SKSxUMQNtiD+GwRE1bWkp1IIEC2JASIHPVOd4apS/BuGS5q3F0CM1HLubb/n5pyripWmkgfS1+yF2cmV3Cafqlg16+3f4El+7FOr3YVW85HfDMSWTbDvY35O7IQEGIQ+/gVKs8ioTx1zRrGa0mXJbNZHB1CS1Vg4xAzXG0R+Vrmz9WUm8tp0njb5w3fG1InafUzFE/JEBWuBEIOELeCjmu+M3a4T3HOgvNOooEeWffrgOx/0wPETJIUCEmv2x0B+GK+3zL9rESPMGxXi3HXYKnt7ret66Z9edQ==
+MIME-Version: 1.0
+
+--_000_AM0PR01MB5873E6BF5A70B7C15FAA767F81430AM0PR01MB5873eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+TEST
+
+--_000_AM0PR01MB5873E6BF5A70B7C15FAA767F81430AM0PR01MB5873eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.E-mailStijl17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"NL">TEST<o:p></o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_AM0PR01MB5873E6BF5A70B7C15FAA767F81430AM0PR01MB5873eurp_--

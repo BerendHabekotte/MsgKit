@@ -248,12 +248,9 @@ namespace MsgKit.Mime.Header
         /// <exception cref="ArgumentNullException">If <paramref name="rawHeaders" /> is <see langword="null" /></exception>
         internal MessageHeader(Dictionary<string, List<string>> rawHeaders)
         {
-            if (rawHeaders == null)
-                throw new ArgumentNullException(nameof(rawHeaders));
-
             Clear();
 
-            RawHeaders = rawHeaders;
+            RawHeaders = rawHeaders ?? throw new ArgumentNullException(nameof(rawHeaders));
 
             // Now parse the actual headers
             ParseHeaders(rawHeaders);

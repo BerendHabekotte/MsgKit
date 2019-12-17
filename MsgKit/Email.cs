@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -47,7 +48,7 @@ namespace MsgKit
     /// <remarks>
     ///     See https://msdn.microsoft.com/en-us/library/office/cc979231.aspx
     /// </remarks>
-    public class Email : Message, IDisposable
+    public class Email : Message
     {
         #region Fields
         /// <summary>
@@ -550,7 +551,10 @@ namespace MsgKit
                             break;
 
                         default:
-                            throw new ArgumentOutOfRangeException();
+                            throw new InvalidEnumArgumentException(
+                                nameof(recipient), 
+                                (int)recipient.RecipientType, 
+                                typeof(RecipientType));
                     }
                 }
 

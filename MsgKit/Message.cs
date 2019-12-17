@@ -211,11 +211,11 @@ namespace MsgKit
         /// <param name="propertyTag"><see cref="PropertyTag"/></param>
         /// <param name="value">The value of the property</param>
         /// <param name="flags"><see cref="PropertyFlags"/></param>
-        /// <exception cref="MKMessageSaved">Raised when the mesage has already been saved with the Save method</exception>
+        /// <exception cref="MsgKitMessageSavedException">Raised when the mesage has already been saved with the Save method</exception>
         public void AddProperty(PropertyTag propertyTag, object value, PropertyFlags flags = PropertyFlags.PROPATTR_WRITABLE)
         {
             if (_saved)
-                throw new MKMessageSaved("The message can't be modified when it already has been saved");
+                throw new MsgKitMessageSavedException("The message can't be modified when it already has been saved");
 
             TopLevelProperties.AddOrReplaceProperty(propertyTag, value, flags);
         }
