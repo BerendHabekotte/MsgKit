@@ -63,6 +63,26 @@ namespace MsgKitUnitTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Delivered_Report {
+            get {
+                object obj = ResourceManager.GetObject("Delivered_Report", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Delivered_Report_AsEml {
+            get {
+                object obj = ResourceManager.GetObject("Delivered_Report_AsEml", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Email_with_attachment {
             get {
                 object obj = ResourceManager.GetObject("Email_with_attachment", resourceCulture);
@@ -73,9 +93,39 @@ namespace MsgKitUnitTests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Email_with_eml_email_attachment {
+            get {
+                object obj = ResourceManager.GetObject("Email_with_eml_email_attachment", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] Linked_resource {
             get {
                 object obj = ResourceManager.GetObject("Linked_resource", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Message_with_received_and_read_notification_and_vote_buttons {
+            get {
+                object obj = ResourceManager.GetObject("Message_with_received_and_read_notification_and_vote_buttons", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Read_Report {
+            get {
+                object obj = ResourceManager.GetObject("Read_Report", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -106,6 +156,26 @@ namespace MsgKitUnitTests.Properties {
         internal static byte[] TEST_AsEml {
             get {
                 object obj = ResourceManager.GetObject("TEST_AsEml", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TEST_IMap {
+            get {
+                object obj = ResourceManager.GetObject("TEST_IMap", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Vote {
+            get {
+                object obj = ResourceManager.GetObject("Vote", resourceCulture);
                 return ((byte[])(obj));
             }
         }

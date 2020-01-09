@@ -1,0 +1,84 @@
+Received: from AM0PR01MB5713.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:136::15) by AM0PR01MB5873.eurprd01.prod.exchangelabs.com with
+ HTTPS via AM0PR05CA0075.EURPRD05.PROD.OUTLOOK.COM; Fri, 20 Dec 2019 10:42:19
+ +0000
+Received: from AM0PR01MB5873.eurprd01.prod.exchangelabs.com (10.255.28.150) by
+ AM0PR01MB5713.eurprd01.prod.exchangelabs.com (20.179.253.82) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.14; Fri, 20 Dec 2019 10:42:17 +0000
+Received: from AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+ ([fe80::d8e2:1f76:3e81:4c84]) by AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+ ([fe80::d8e2:1f76:3e81:4c84%4]) with mapi id 15.20.2559.016; Fri, 20 Dec 2019
+ 10:42:17 +0000
+From: Demo Docuwork <demo@docuwork.nl>
+To: Berend Habekotte <b.habekotte@DocYard.eu>
+Subject: Gelezen: Message with received and read notification and vote buttons
+Thread-Topic: Message with received and read notification and vote buttons
+Thread-Index: AdW3IYHmSajoM9q+QaSlADyGJ+QQbwAAJfeP
+Date: Fri, 20 Dec 2019 11:42:17 +0100
+Message-ID:
+	<AM0PR01MB5873F3361FF883353C1D597F812D0@AM0PR01MB5873.eurprd01.prod.exchangelabs.com>
+In-Reply-To:
+	<AM0PR01MB58730CD1839E0E276946D408812D0@AM0PR01MB5873.eurprd01.prod.exchangelabs.com>
+Accept-Language: nl-NL, en-US
+Content-Language: nl-NL
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-MS-Exchange-Organization-AuthSource:
+	AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+X-MS-Has-Attach:
+X-MS-Exchange-Organization-Network-Message-Id:
+	e6ab7567-3af1-4127-930a-08d785394896
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+x-ms-publictraffictype: Email
+x-originating-ip: [217.100.79.147]
+x-forefront-antispam-report:
+	SFV:SKI;SFS:;DIR:INB;SFP:;SCL:-1;SRVR:AM0PR01MB5713;H:AM0PR01MB5873.eurprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;
+authentication-results: DocYard.eu; dkim=none (message not signed)
+ header.d=none;DocYard.eu; dmarc=none action=none header.from=docuwork.nl;
+x-ms-office365-filtering-correlation-id: e6ab7567-3af1-4127-930a-08d785394896
+x-microsoft-antispam: BCL:0;
+x-ms-traffictypediagnostic: AM0PR01MB5713:
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;ex:0;auth:0;dest:I;ENG:(750127)(520011016)(706158)(944506383)(944626516);
+X-Microsoft-Antispam-Message-Info:
+	nYUBsKxVb/Gmy83dSXlkAXj1Y+iT27AutAZdKORFAi3nxZ5Ut5fJs1i0P0yoYtIWah+23hCTawfXcCnVeSL4MCaIlPSw5JpwTOBHEx1RIBZq7eJjRMpkaJUoSefekHEw93ObQe5L0wuL6jIGgka9hfIxOMAcgGmAa6Ax5dRYglkrmZE/n4FG2m3NDH4v8jNWAtV+Evi7Lfg8hSBSV3F9LaKL6wPKe1ew77Pu8M+7aLt3XR9q21it1FEZ1+M/HE+Rl2R3EecQQbN2u5kLSWSOjTQajPuOayuPOdXqW0OwqS3pEBCErrzJHNh2RTmag/qM3pu514r8ytmy6uFrS4/AK9secjhySWQPGJiKyOT453EMWkTpf7u0zy2AU7Sd6xUf
+Content-Type: multipart/report;
+	boundary="_000_AM0PR01MB5873F3361FF883353C1D597F812D0AM0PR01MB5873eurp_";
+	report-type=disposition-notification
+MIME-Version: 1.0
+
+--_000_AM0PR01MB5873F3361FF883353C1D597F812D0AM0PR01MB5873eurp_
+Content-Type: text/html; charset="us-ascii"
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<meta name="Generator" content="Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left: #800000 2px solid; } --></style>
+</head>
+<body>
+<font size="2"><span style="font-size:11pt;">
+<div class="PlainText">Uw bericht <br>
+<br>
+&nbsp;&nbsp; Aan: Demo Docuwork<br>
+&nbsp;&nbsp; Onderwerp: Message with received and read notification and vote buttons<br>
+&nbsp;&nbsp; Verzonden: vrijdag 20 december 2019 11:40:23 (UTC&#43;01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna<br>
+<br>
+&nbsp;is gelezen op vrijdag 20 december 2019 11:41:56 (UTC&#43;01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna.</div>
+</span></font>
+</body>
+</html>
+
+--_000_AM0PR01MB5873F3361FF883353C1D597F812D0AM0PR01MB5873eurp_
+Content-Type: message/disposition-notification
+
+Final-recipient: RFC822; demo@docuwork.nl
+Disposition: automatic-action/MDN-sent-automatically; displayed
+X-MSExch-Correlation-Key: fO9TQCIxTUC12YqZ7Z4Bzg==
+X-Display-Name: Demo Docuwork
+
+
+--_000_AM0PR01MB5873F3361FF883353C1D597F812D0AM0PR01MB5873eurp_--

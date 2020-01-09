@@ -1,0 +1,49 @@
+Received: from AM0PR01MB5713.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::16) by AM0PR01MB5873.eurprd01.prod.exchangelabs.com with
+ HTTPS via AM0PR01CA0075.EURPRD01.PROD.EXCHANGELABS.COM; Fri, 20 Dec 2019
+ 10:43:23 +0000
+Received: from AM0PR01MB5873.eurprd01.prod.exchangelabs.com (10.255.28.150) by
+ AM0PR01MB5713.eurprd01.prod.exchangelabs.com (20.179.253.82) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2559.14; Fri, 20 Dec 2019 10:43:22 +0000
+Received: from AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+ ([fe80::d8e2:1f76:3e81:4c84]) by AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+ ([fe80::d8e2:1f76:3e81:4c84%4]) with mapi id 15.20.2559.016; Fri, 20 Dec 2019
+ 10:43:22 +0000
+From: Demo Docuwork <demo@docuwork.nl>
+To: Berend Habekotte <b.habekotte@DocYard.eu>
+Subject: Misschien: Message with received and read notification and vote
+ buttons
+Thread-Topic: Message with received and read notification and vote buttons
+Thread-Index: AdW3IYHmSajoM9q+QaSlADyGJ+QQbwAAMqnA
+Date: Fri, 20 Dec 2019 11:43:22 +0100
+Message-ID:
+	<AM0PR01MB587328FCD70B2AC236545C6D812D0@AM0PR01MB5873.eurprd01.prod.exchangelabs.com>
+Accept-Language: nl-NL, en-US
+Content-Language: nl-NL
+X-MS-Exchange-Organization-AuthAs: Internal
+X-MS-Exchange-Organization-AuthMechanism: 04
+X-MS-Exchange-Organization-AuthSource:
+	AM0PR01MB5873.eurprd01.prod.exchangelabs.com
+X-MS-Has-Attach:
+X-MS-Exchange-Organization-Network-Message-Id:
+	84db4cd6-ddfe-4844-d898-08d785396f98
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+x-ms-publictraffictype: Email
+x-originating-ip: [217.100.79.147]
+x-forefront-antispam-report:
+	SFV:SKI;SFS:;DIR:INB;SFP:;SCL:-1;SRVR:AM0PR01MB5713;H:AM0PR01MB5873.eurprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;
+authentication-results: DocYard.eu; dkim=none (message not signed)
+ header.d=none;DocYard.eu; dmarc=none action=none header.from=docuwork.nl;
+x-ms-office365-filtering-correlation-id: 84db4cd6-ddfe-4844-d898-08d785396f98
+x-microsoft-antispam: BCL:0;
+x-ms-traffictypediagnostic: AM0PR01MB5713:
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;ex:0;auth:0;dest:I;ENG:(750127)(520011016)(706158)(944506383)(944626516);
+X-Microsoft-Antispam-Message-Info:
+	lEiemMKYCnaQG3aZs+NyylKPuFxeavZQNKFNT/9VWaRSA9Xk/+qEuoUBI+Ul8gFTCCWIuAK1Y+8qnQ2PiyWDzVq9+b5xHomN1avNtSbFAramg6LayhiOlE/ucU/B1i4llwHoKBrJ//Z5wACUqEkY06mIHwUahFj4qP3DqQrd03R/ZaMnqnIWNF4fMq9uQI2jQfLjfj2xvR5j8tgvfg3VC2jxsGCRcdscjqNJ/RZzXqk/tcs0hW5nkW3lRXdJCsrZOzRtgZGOsPTMxbxBLCe/Yy28FAfA7cwPgIMwv4c9veJsa6uunvnqvXb0BMCjm6fPkvHJvEpUOrSC/gOBFSkWAg==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+

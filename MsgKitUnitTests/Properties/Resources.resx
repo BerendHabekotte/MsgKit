@@ -118,11 +118,26 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Delivered_Report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delivered_Report.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Delivered_Report_AsEml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Delivered_Report_AsEml.eml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Email_with_attachment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Email with attachment.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Email_with_eml_email_attachment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Email with eml email attachment.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Linked_resource" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Linked resource.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Message_with_received_and_read_notification_and_vote_buttons" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Message with received and read notification and vote buttons.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Read_Report" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Read_Report.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="TEST" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TEST.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -132,5 +147,11 @@
   </data>
   <data name="TEST_AsEml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TEST_AsEml.eml;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TEST_IMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TEST_IMap.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Vote" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Vote.msg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

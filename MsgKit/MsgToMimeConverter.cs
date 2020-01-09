@@ -1,7 +1,7 @@
 ﻿using MimeKit;
 using MsgKit.Enums;
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -14,10 +14,9 @@ namespace MsgKit
 
         internal MsgToMimeConverter(MsgReader.Outlook.Storage.Message msgMessage, MimeMessage mimeMessage)
         {
-            if (msgMessage == null) { throw new ArgumentNullException(nameof(msgMessage)); }
-            if (mimeMessage == null) { throw new ArgumentNullException(nameof(mimeMessage)); }
-            this.msgMessage = msgMessage;
-            this.mimeMessage = mimeMessage;
+            this.msgMessage = msgMessage ?? throw new ArgumentNullException(nameof(msgMessage));
+            this.mimeMessage = mimeMessage ?? throw new ArgumentNullException(nameof(mimeMessage));
+            bodyBuilder = null;
         }
 
         #endregion
@@ -33,10 +32,8 @@ namespace MsgKit
             ConvertImportance();
             ConvertRecipients();
             ConvertBody();
-            ConvertContentLanguageHeader();
             ConvertHeaders();
         }
-
 
         #region private methods
 
@@ -59,10 +56,15 @@ namespace MsgKit
             {
                 return;
             }
+            if (msgMessage.SenderRepresenting.AddressType != "SMTP")
+            {
+                return;
+            }
+            var address = msgMessage.SenderRepresenting.Email;
             var resentSender = new MailboxAddress(
                     Encoding.ASCII,
                     msgMessage.SenderRepresenting.DisplayName,
-                    msgMessage.SenderRepresenting.Email);
+                    address);
             mimeMessage.ResentSender = resentSender;
         }
 
@@ -84,7 +86,6 @@ namespace MsgKit
         {
             mimeMessage.Importance = msgMessage.Importance.Map();
         }
-
 
         private void ConvertRecipients()
         {
@@ -115,277 +116,321 @@ namespace MsgKit
                     case MsgReader.Outlook.RecipientType.Resource:
                     case MsgReader.Outlook.RecipientType.Room:
                         break;
-                    case MsgReader.Outlook.RecipientType.To:
-                        mimeMessage.To.Add(mailAddress);
-                        break;
                     case MsgReader.Outlook.RecipientType.Unknown:
                         break;
                 }
+            }
+            if (msgMessage.Headers.To == null)
+            {
+                return;
+            }
+            foreach(var address in msgMessage.Headers.To)
+            {
+                var displayName = string.IsNullOrEmpty(address.DisplayName) ? address.Address : address.DisplayName;
+                var mailAddress = new MailboxAddress(displayName, address.Address);
+                mimeMessage.To.Add(mailAddress);
             }
         }
 
         private void ConvertBody()
         {
-            ConvertBodyByBodyBuilder();
-
-            // This loops through the top-level parts (i.e. it doesn't open up attachments and continue to traverse).
-            // As such, any included messages are just attachments here.
-
-            //foreach (var bodyPart in eml.BodyParts)
-            //{
-            //    var handled = false;
-
-            //    // If the part hasn't previously been handled by "body" part handling
-            //    if (!handled)
-            //    {
-            //        var attachmentStream = new MemoryStream();
-            //        var fileName = bodyPart.ContentType.Name;
-            //        var extension = string.Empty;
-
-            //        if (bodyPart is MessagePart messagePart)
-            //        {
-            //            messagePart.Message.WriteTo(attachmentStream);
-            //            if (messagePart.Message != null)
-            //                fileName = messagePart.Message.Subject;
-
-            //            extension = ".eml";
-            //        }
-            //        else if (bodyPart is MessageDispositionNotification)
-            //        {
-            //            var part = (MessageDispositionNotification)bodyPart;
-            //            fileName = part.FileName;
-            //        }
-            //        else if (bodyPart is MessageDeliveryStatus)
-            //        {
-            //            var part = (MessageDeliveryStatus)bodyPart;
-            //            fileName = "details";
-            //            extension = ".txt";
-            //            part.WriteTo(FormatOptions.Default, attachmentStream, true);
-            //        }
-            //        else
-            //        {
-            //            var part = (MimePart)bodyPart;
-            //            part.Content.DecodeTo(attachmentStream);
-            //            fileName = part.FileName;
-            //            bodyPart.WriteTo(attachmentStream);
-            //        }
-
-            //        fileName = string.IsNullOrWhiteSpace(fileName)
-            //            ? $"part_{++namelessCount:00}"
-            //            : FileManager.RemoveInvalidFileNameChars(fileName);
-
-            //        if (!string.IsNullOrEmpty(extension))
-            //            fileName += extension;
-
-            //        var inline = bodyPart.ContentDisposition != null &&
-            //            bodyPart.ContentDisposition.Disposition.Equals("inline",
-            //                StringComparison.InvariantCultureIgnoreCase);
-
-            //        attachmentStream.Position = 0;
-            //        msg.Attachments.Add(attachmentStream, fileName, -1, inline, bodyPart.ContentId);
-            //    }
-            //}
-
-            //mimeMessage.Body = multiPart;
-        }
-
-        private void ConvertBodyByBodyBuilder()
-        {
-            var builder = new BodyBuilder
+            if (msgMessage.Headers.ContentType.MediaType == "multipart/report")
             {
-                TextBody = msgMessage.BodyText,
-                HtmlBody = msgMessage.BodyHtml
-            };
-            mimeMessage.Body = builder.ToMessageBody();
-            mimeMessage.Body.ContentType.Boundary = msgMessage.Headers.ContentType.Boundary;
+                if (ConvertReport())
+                {
+                    return;
+                }
+            }
+            if (msgMessage.Headers.ContentType.MediaType == "application/ms-tnef")
+            {
+                if (ConvertMsTnef())
+                {
+                    return;
+                }
+            }
+            ConvertBodyByBodyBuilder();
         }
 
-        private void ConvertContentLanguageHeader()
+        private bool ConvertReport()
         {
-            var language = msgMessage.Headers.UnknownHeaders["Content-Language"];
-            if (string.IsNullOrEmpty(language))
+            if (msgMessage.Headers.ContentType.MediaType == "multipart/report")
+            {
+                return ConvertMultipartReport();
+            }
+            if (msgMessage.SubjectPrefix != null && msgMessage.Headers.ContentType.MediaType == "application/ms-tnef")
+            {
+                return ConvertMsTnef();
+            }
+            return false;
+        }
+
+        private bool ConvertMultipartReport()
+        {
+            if (!msgMessage.Headers.ContentType.Parameters.ContainsKey("report-type"))
+            {
+                return false;
+            }
+            var bodyPart = new MultipartReport(reportType: msgMessage.Headers.ContentType.Parameters["report-type"]);
+            ConvertAttachments(bodyPart);
+            if (msgMessage.Headers.ContentType.Parameters["report-type"] == "delivery-status")
+            {
+                ConvertDeliveryStatusReport(bodyPart);
+                return true;
+            }
+            if (msgMessage.Headers.ContentType.Parameters["report-type"] == "disposition-notification")
+            {
+                ConvertDispositionNotificationReport(bodyPart);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool ConvertMsTnef()
+        {
+            // TODO BHA
+            return false;
+        }
+
+        private void ConvertAttachments(Multipart body)
+        {
+            foreach (var @object in msgMessage.Attachments)
+            {
+                var attachment = (@object as MsgReader.Outlook.Storage.Attachment);
+                var message = (@object as MsgReader.Outlook.Storage.Message);
+                if (attachment == null && message == null)
+                {
+                    continue;
+                }
+                if (message != null)
+                {
+                    ConvertMessageAttachment(body, message);
+                    continue;
+                }
+                if (attachment == null)
+                {
+                    continue;
+                }
+                if (attachment.IsInline)
+                {
+                    ConvertInlineAttachment(body, attachment);
+                    continue;
+                }
+                ConvertMimeAttachment(body, attachment);
+            }
+        }
+
+        private static void ConvertMessageAttachment(Multipart body, MsgReader.Outlook.Storage.Message messageAttachment)
+        {
+            var dataStream = new MemoryStream();
+            messageAttachment.Save(dataStream);
+            dataStream.Seek(0, SeekOrigin.Begin);
+            var mimePart = new MimePart
+            {
+                Content = new MimeContent(dataStream),
+                FileName = messageAttachment.Subject + ".msg",
+                ContentId = messageAttachment.Headers.ContentId,
+                IsAttachment = true
+            };
+            body.Add(mimePart);
+        }
+
+        private void ConvertInlineAttachment(Multipart body, MsgReader.Outlook.Storage.Attachment attachment)
+        {
+            throw new NotImplementedException("ConvertInlineAttachment");
+        }
+
+        private static void ConvertMimeAttachment(Multipart body, MsgReader.Outlook.Storage.Attachment attachment)
+        {
+            var dataStream = new MemoryStream(attachment.Data);
+            var mimePart = new MimePart
+            {
+                Content = new MimeContent(dataStream),
+                FileName = attachment.FileName,
+                ContentId = attachment.ContentId,
+                IsAttachment = true
+            };
+            body.Add(mimePart);
+        }
+
+        private void ConvertDeliveryStatusReport(MultipartReport bodyPart)
+        {
+            // TODO BHA Add MessageDeliveryStatus.Headers, Make Email attachment readable
+            var deliveryStatus = new MessageDeliveryStatus();
+            bodyPart.Add(deliveryStatus);
+            ConvertBodyPartAlternatives(bodyPart);
+            bodyPart.ContentType.Boundary = msgMessage.Headers.ContentType.Boundary;
+            mimeMessage.Body = bodyPart as MimeEntity;
+        }
+
+        private void ConvertDispositionNotificationReport(MultipartReport bodyPart)
+        {
+            // TODO BHA Add MessageDispositionNotification.Headers
+            var dispositionNotification = new MessageDispositionNotification();
+            bodyPart.Add(dispositionNotification);
+            ConvertBodyPartAlternatives(bodyPart);
+            bodyPart.ContentType.Boundary = msgMessage.Headers.ContentType.Boundary;
+            mimeMessage.Body = bodyPart as MimeEntity;
+        }
+
+        private void ConvertBodyPartAlternatives(Multipart body)
+        {
+            var bodypartAlternative = new MultipartAlternative();
+            ConvertBodyText(bodypartAlternative);
+            ConvertBodyRtf(bodypartAlternative);
+            ConvertBodyHtml(bodypartAlternative);
+            body.Add(bodypartAlternative);
+        }
+
+        private void ConvertBodyText(MultipartAlternative body)
+        {
+            if (msgMessage.BodyText == null)
             {
                 return;
             }
-            mimeMessage.Body.Headers.Add(HeaderId.ContentLanguage, language);
+            var textPart = new TextPart(MimeKit.Text.TextFormat.Plain)
+            {
+                Text = msgMessage.BodyText
+            };
+            body.Add(textPart);
         }
 
-        /// <summary>
-        /// Since we use the BodyBuilder approach to generate the body, and the BodyBuilder class 
-        /// misses the RftBody property, we do not convert the <see cref="MsgReader.Outlook.Storage.Message.BodyRtf"/> property.
-        /// </summary>
-        /// <param name="body">The MimeMessage body target.</param>
-        private void ConvertMsgToEmlBodyRtf(MultipartAlternative body)
+        private void ConvertBodyHtml(MultipartAlternative body)
+        {
+            if (msgMessage.BodyHtml == null)
+            {
+                return;
+            }
+            var textPart = new TextPart(MimeKit.Text.TextFormat.Html)
+            {
+                Text = msgMessage.BodyHtml
+            };
+            body.Add(textPart);
+        }
+
+        private void ConvertBodyRtf(MultipartAlternative body)
         {
             if (msgMessage.BodyRtf == null)
             {
                 return;
             }
-            var rtfPart = new TextPart(MimeKit.Text.TextFormat.RichText)
+            var textPart = new TextPart(MimeKit.Text.TextFormat.RichText)
             {
                 Text = msgMessage.BodyRtf
             };
-            body.Add(rtfPart);
+            body.Add(textPart);
         }
 
-        private void ConvertHeaders(
-            )
+        private void ConvertBodyByBodyBuilder()
         {
-            var msgHeaders = msgMessage.Headers;
-            if (msgHeaders == null)
+            bodyBuilder = new BodyBuilder
             {
-                return;
+                TextBody = msgMessage.BodyText,
+                HtmlBody = msgMessage.BodyHtml
+            };
+            ConvertAttachments();
+            mimeMessage.Body = bodyBuilder.ToMessageBody();
+            if (msgMessage.Headers.ContentType.MediaType == mimeMessage.Body.ContentType.MimeType &&
+                msgMessage.Headers.ContentType.Boundary != null)
+            {
+                mimeMessage.Body.ContentType.Boundary = msgMessage.Headers.ContentType.Boundary;
             }
-            ConvertHeaderAddressList(HeaderId.Bcc, msgHeaders.Bcc);
-            ConvertHeaderAddressList(HeaderId.Cc, msgHeaders.Cc);
-            ConvertHeaderString(HeaderId.ContentDescription, msgHeaders.ContentDescription);
-            ConvertHeaderObject(HeaderId.ContentDisposition, msgHeaders.ContentDisposition);
-            ConvertHeaderString(HeaderId.ContentId, msgHeaders.ContentId);
-            ConvertHeaderObject(HeaderId.ContentTransferEncoding, msgHeaders.ContentTransferEncoding);
-            ConvertHeaderObject(HeaderId.ContentType, msgHeaders.ContentType);
-            ConvertHeaderString(HeaderId.Date, msgHeaders.Date);
-            ConvertHeaderAddressList(HeaderId.DispositionNotificationTo, msgHeaders.DispositionNotificationTo);
-            ConvertHeaderAddress(HeaderId.From, msgHeaders.From);
-            ConvertHeaderObject(HeaderId.Importance, msgHeaders.Importance);
-            ConvertHeaderStringList(HeaderId.InReplyTo, msgHeaders.InReplyTo);
-            ConvertHeaderStringList(HeaderId.Keywords, msgHeaders.Keywords);
-            ConvertHeaderString(HeaderId.MessageId, msgHeaders.MessageId);
-            ConvertHeaderString(HeaderId.MimeVersion, msgHeaders.MimeVersion);
-            ConvertHeaderReceived();
-            ConvertHeaderStringList(HeaderId.References, msgHeaders.References);
-            ConvertHeaderAddress(HeaderId.ReplyTo, msgHeaders.ReplyTo);
-            ConvertHeaderAddress(HeaderId.ReturnPath, msgHeaders.ReturnPath);
-            ConvertHeaderAddress(HeaderId.Sender, msgHeaders.Sender);
-            ConvertHeaderString(HeaderId.Subject, msgHeaders.Subject);
-            ConvertHeaderAddressList(HeaderId.To, msgHeaders.To);
-            ConvertHeadersUnknown();
+            ConvertBodyRtf();
         }
 
-        private void ConvertHeadersUnknown()
+        private void ConvertAttachments()
         {
-            foreach (var key in msgMessage.Headers.UnknownHeaders.AllKeys)
+            foreach (var @object in msgMessage.Attachments)
             {
-                var value = msgMessage.Headers.UnknownHeaders[key];
-                HeaderId id;
-                var keyString = key.Replace("-", string.Empty);
-                if (Enum.TryParse(keyString, true, out id))
+                var attachment = (@object as MsgReader.Outlook.Storage.Attachment);
+                var message = (@object as MsgReader.Outlook.Storage.Message);
+                if (message != null)
                 {
-                    ConvertHeaderString(id, value);
+                    ConvertMessageAttachment(message);
+                    continue;
                 }
-                else
+                if (attachment == null)
                 {
-                    if (key != "Content-Language")
-                    {
-                        mimeMessage.Headers.Add(key, Encoding.ASCII, value);
-                    }
+                    continue;
                 }
+                if (attachment.IsInline)
+                {
+                    ConvertInlineAttachment(attachment);
+                    continue;
+                }
+                ConvertMimeAttachment(attachment);
             }
         }
 
-        private void ConvertHeaderReceived()
+        private void ConvertMessageAttachment(MsgReader.Outlook.Storage.Message messageAttachment)
         {
-            if (msgMessage.Headers.Received == null)
+            var dataStream = new MemoryStream();
+            messageAttachment.Save(dataStream);
+            var mimePart = new MimePart
             {
-                return;
-            }
-            foreach (var received in msgMessage.Headers.Received)
-            {
-                ConvertHeaderString(HeaderId.Received, received.Raw);
-            }
+                Content = new MimeContent(dataStream),
+                FileName = messageAttachment.Subject + ".msg"
+            };
+            bodyBuilder.Attachments.Add(mimePart);
         }
 
-        private void ConvertHeaderString(HeaderId headerId, string value)
+        private void ConvertMimeAttachment(MsgReader.Outlook.Storage.Attachment attachment)
         {
-            if (string.IsNullOrEmpty(value))
+            var dataStream = new MemoryStream(attachment.Data);
+            var mimePart = new MimePart
             {
-                return;
-            }
-            if (mimeMessage.Headers.Any(h => h.Id == headerId))
-            {
-                return;
-            }
-            var header = new Header(headerId, value);
-            mimeMessage.Headers.Add(header);
+                Content = new MimeContent(dataStream),
+                FileName = attachment.FileName,
+                ContentId = attachment.ContentId
+            };
+            bodyBuilder.Attachments.Add(mimePart);
         }
 
-        private void ConvertHeaderString(string field, string value)
+        private void ConvertInlineAttachment(MsgReader.Outlook.Storage.Attachment attachment)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-            if (mimeMessage.Headers.Any(h => h.Field == field))
-            {
-                return;
-            }
-            mimeMessage.Headers.Add(field, Encoding.ASCII, value);
+            var linkedResource = bodyBuilder.LinkedResources.Add(fileName: attachment.FileName, data: attachment.Data);
+            linkedResource.ContentId = attachment.ContentId;
         }
 
-
-
-        private void ConvertHeaderObject(HeaderId headerId, object value)
+        private void ConvertBodyRtf()
         {
-            if (value == null)
+            if (string.IsNullOrEmpty(msgMessage.BodyRtf))
             {
                 return;
             }
-            ConvertHeaderString(headerId, value.ToString());
+            var rtfBody = new TextPart(MimeKit.Text.TextFormat.RichText)
+            {
+                Text = msgMessage.BodyRtf,
+                IsAttachment = false
+            };
+            if (mimeMessage.Body is MultipartAlternative)
+            {
+                ((MultipartAlternative)mimeMessage.Body).Add(rtfBody);
+                return;
+            }
+            var multiPartAlternative =
+                (mimeMessage.Body as Multipart)
+                .FirstOrDefault(p => p.GetType() == typeof(MultipartAlternative));
+            if (multiPartAlternative == null)
+            {
+                return;
+            }
+            ((MultipartAlternative)multiPartAlternative).Add(rtfBody);
         }
 
-
-        private void ConvertHeaderAddressList(
-            HeaderId headerId,
-            List<MsgReader.Mime.Header.RfcMailAddress> addresses)
+        private void ConvertHeaders()
         {
-            if (mimeMessage.Headers.Any(h => h.Id == headerId))
-            {
-                return;
-            }
-            foreach (var address in addresses)
-            {
-                ConvertHeaderAddress(headerId, address);
-            }
-        }
-
-        private void ConvertHeaderAddress(
-            HeaderId headerId,
-            MsgReader.Mime.Header.RfcMailAddress address)
-        {
-            if (address == null)
-            {
-                return;
-            }
-            if (string.IsNullOrEmpty(address.Raw))
-            {
-                return;
-            }
-            ConvertHeaderString(headerId, address.Raw);
-        }
-
-        private void ConvertHeaderStringList(
-            HeaderId headerId,
-            List<string> values)
-        {
-            if (mimeMessage.Headers.Any(h => h.Id == headerId))
-            {
-                return;
-            }
-            foreach (var value in values)
-            {
-                ConvertHeaderString(headerId, value);
-            }
+            var converter = new MsgToMimeHeaderConverter(msgMessage.Headers, mimeMessage.Headers);
+            converter.Convert();
         }
 
         #endregion
 
         #region private fields
 
-        MsgReader.Outlook.Storage.Message msgMessage;
-        MimeMessage mimeMessage;
+        readonly MsgReader.Outlook.Storage.Message msgMessage;
+        readonly MimeMessage mimeMessage;
+        BodyBuilder bodyBuilder;
 
         #endregion
-
-
-
     }
 }
